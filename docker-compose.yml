@@ -1,0 +1,32 @@
+networks:
+  express-crud:
+    name: 'express-crud'
+
+services:
+  postgres:
+    image: postgres:17.0-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/postgres:/var/lib/postgresql/data
+    networks:
+      - express-crud
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/api
+    env_file:
+      - .env
+    networks:
+      - express-crud
+    command: yarn dev
