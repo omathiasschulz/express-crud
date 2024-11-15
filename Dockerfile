@@ -1,3 +1,4 @@
+# dev mode
 FROM node:22.11-alpine AS dev
 
 WORKDIR /api
