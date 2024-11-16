@@ -1,0 +1,3 @@
+CREATE DATABASE express_crud;
+CREATE USER postgres WITH ENCRYPTED PASSWORD 'postgres';
+GRANT ALL PRIVILEGES ON DATABASE express_crud TO postgres;

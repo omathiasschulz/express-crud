@@ -1,5 +1,6 @@
 import express, { type Request, type Response, type Router } from 'express';
 import cors from 'cors';
+import { AppDataSource } from './data-source';
 
 interface ServerOptions {
   port: number;
@@ -29,6 +30,11 @@ export class Server {
         message: 'The API is up and running!',
       });
     });
+
+    // conexão com o banco de dados
+    AppDataSource.initialize()
+      .then(() => console.info('Connected with database...'))
+      .catch((error) => console.error(error));
 
     this.app.listen(this.port, () => {
       console.info(`Server running on port ${this.port}...`);
