@@ -1,0 +1,20 @@
+###
+GET http://localhost:3000/produtor/
+
+###
+POST http://localhost:3000/produtor/
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:3000/produtor/1/
+
+###
+PUT http://localhost:3000/produtor/1/
+Content-Type: application/json
+
+{}
+
+###
+DELETE http://localhost:3000/produtor/1/

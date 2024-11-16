@@ -7,7 +7,7 @@ ProdutorRouter.route('/produtor')
   .get(ProdutorController.findAll)
   .post(ProdutorController.create);
 
-ProdutorRouter.route('/registro/:_id')
+ProdutorRouter.route('/produtor/:_id')
   .get(ProdutorController.findOne)
   .put(ProdutorController.update)
   .delete(ProdutorController.remove);
