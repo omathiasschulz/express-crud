@@ -1,9 +1,12 @@
-import { Server } from './server';
+import { Server } from './core/server';
+import ProdutorRouter from './modules/produtor/produtor.route';
 
-(function (): void {
-  const server = new Server({
-    port: 3000,
-  });
+const server = new Server({
+  port: 3000,
+});
+server.start();
 
-  server.start();
-})();
+/**
+ * Construção das rotas
+ */
+server.build(ProdutorRouter);

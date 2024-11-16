@@ -1,10 +1,13 @@
-import express, { type Request, type Response } from 'express';
+import express, { type Request, type Response, type Router } from 'express';
 import cors from 'cors';
 
 interface ServerOptions {
   port: number;
 }
 
+/**
+ * Class Server
+ */
 export class Server {
   private readonly app = express();
   private readonly port: number;
@@ -13,6 +16,9 @@ export class Server {
     this.port = port;
   }
 
+  /**
+   * Inicia o servidor e aplica as configurações iniciais
+   */
   async start(): Promise<void> {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
@@ -25,7 +31,16 @@ export class Server {
     });
 
     this.app.listen(this.port, () => {
-      console.log(`Server running on port ${this.port}...`);
+      console.info(`Server running on port ${this.port}...`);
     });
+  }
+
+  /**
+   * Realiza a construção das rotas de um novo módulo
+   *
+   * @param router
+   */
+  async build(router: Router): Promise<void> {
+    this.app.use(router);
   }
 }
