@@ -13,7 +13,9 @@ export const validateDto = async <T extends object>(
   dtoClass: new () => T,
   data: object,
 ): Promise<T> => {
-  const dto = plainToInstance(dtoClass, data);
+  const dto = plainToInstance(dtoClass, data, {
+    excludeExtraneousValues: true,
+  });
   const errors = await validate(dto);
 
   // valida se existem erros
