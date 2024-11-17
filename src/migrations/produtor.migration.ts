@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class ProdutorMigration implements MigrationInterface {
+export class ProdutorMigration1731811569151 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
         create type enum_culturas as enum ('soja', 'milho', 'algodao', 'cafe', 'cana_acucar');
