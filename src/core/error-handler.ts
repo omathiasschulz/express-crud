@@ -16,6 +16,7 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction,
 ) => {
+  console.error(error);
   const statusCode =
     error instanceof ApiError
       ? error.statusCode

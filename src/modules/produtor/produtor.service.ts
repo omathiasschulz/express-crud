@@ -1,3 +1,5 @@
+import { cnpj, cpf } from 'cpf-cnpj-validator';
+import { BadRequestError } from '../../core/api-error';
 import { AppDataSource } from '../../core/data-source';
 import { CreateProdutorDTO } from './dtos/create-produtor.dto';
 import { UpdateProdutorDTO } from './dtos/update-produtor.dto';
@@ -7,6 +9,8 @@ import { Produtor } from './entities/produtor.entity';
  * Class ProdutorService
  */
 export class ProdutorService {
+  private readonly QTD_CARACTERES_CPF = 11;
+
   private readonly produtor = AppDataSource.getRepository(Produtor);
 
   /**
@@ -16,6 +20,37 @@ export class ProdutorService {
    * @returns Retorna o registro cadastrado
    */
   async create(dto: CreateProdutorDTO): Promise<Produtor> {
+    // valida se o cpf/cnpj é válido
+    if (dto.cpf_cnpj.length === this.QTD_CARACTERES_CPF) {
+      if (!cpf.isValid(dto.cpf_cnpj)) {
+        throw new BadRequestError(
+          `O CPF ${cpf.format(dto.cpf_cnpj)} é inválido!`,
+        );
+      }
+    } else {
+      if (!cnpj.isValid(dto.cpf_cnpj)) {
+        throw new BadRequestError(
+          `O CNPJ ${cnpj.format(dto.cpf_cnpj)} é inválido!`,
+        );
+      }
+    }
+
+    // valida se o cpf/cnpj já está inserido
+    if (
+      await this.produtor.findOne({
+        where: { cpf_cnpj: dto.cpf_cnpj },
+      })
+    ) {
+      if (dto.cpf_cnpj.length === this.QTD_CARACTERES_CPF) {
+        throw new BadRequestError(
+          `O CPF ${cpf.format(dto.cpf_cnpj)} já está cadastrado!`,
+        );
+      }
+      throw new BadRequestError(
+        `O CNPJ ${cnpj.format(dto.cpf_cnpj)} já está cadastrado!`,
+      );
+    }
+
     return await this.produtor.save(dto);
   }
 

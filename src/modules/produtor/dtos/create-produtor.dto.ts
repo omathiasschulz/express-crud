@@ -5,14 +5,16 @@ import {
   IsNumber,
   IsString,
   ArrayMinSize,
+  Length,
 } from 'class-validator';
 import { CulturasPlantadas } from '../enums/culturas.enum';
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 export class CreateProdutorDTO {
   @Expose()
   @IsString({ message: 'cpf_cnpj deve ser uma string' })
   @IsNotEmpty({ message: 'cpf_cnpj é obrigatório' })
+  @Transform(({ value }) => value.replace(/[\/\.\-]/g, '')) // Remove '.', '-', '/'
   cpf_cnpj: string;
 
   @Expose()
@@ -28,6 +30,7 @@ export class CreateProdutorDTO {
   @Expose()
   @IsString({ message: 'sigla_uf deve ser uma string' })
   @IsNotEmpty({ message: 'sigla_uf é obrigatório' })
+  @Length(2, 2, { message: 'sigla_uf deve possuir 2 caracteres' })
   sigla_uf: string;
 
   @Expose()

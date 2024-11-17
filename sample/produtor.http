@@ -6,7 +6,7 @@ POST http://localhost:3000/produtor
 Content-Type: application/json
 
 {
-    "cpf_cnpj": "11122233341",
+    "cpf_cnpj": "28.006.736/0001-96",
     "nome": "Fulano Sobrenome",
     "cidade": "Ibirama",
     "sigla_uf": "SC",
