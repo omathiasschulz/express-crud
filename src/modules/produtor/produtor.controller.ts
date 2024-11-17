@@ -40,10 +40,6 @@ class ProdutorController {
     next: NextFunction,
   ): Promise<void> => {
     try {
-      console.log(new Date());
-      console.log(new Date().toISOString());
-      console.log(new Date().toLocaleTimeString());
-
       const produtores = await this.produtorService.findAll();
       res.status(HttpCode.OK).json(produtores);
     } catch (error) {
