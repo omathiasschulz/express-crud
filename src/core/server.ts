@@ -12,6 +12,7 @@ interface ServerOptions {
 export class Server {
   private readonly app = express();
   private readonly port: number;
+  private readonly routes: Router[] = [];
 
   constructor({ port }: ServerOptions) {
     this.port = port;
@@ -31,6 +32,15 @@ export class Server {
       });
     });
 
+    // adiciona as rotas da aplicação
+    this.routes.map((route: Router) => {
+      this.app.use(route);
+    });
+
+    this.app.get('*', (_req: Request, res: Response) => {
+      res.status(404).json({ message: '404 Not Found' });
+    });
+
     // conexão com o banco de dados
     AppDataSource.initialize()
       .then(() => console.info('Connected with database...'))
@@ -42,11 +52,11 @@ export class Server {
   }
 
   /**
-   * Realiza a construção das rotas de um novo módulo
+   * Realiza a construção das rotas de novos módulos
    *
-   * @param router
+   * @param routes
    */
-  async build(router: Router): Promise<void> {
-    this.app.use(router);
+  async addRoutes(...routes: Router[]): Promise<void> {
+    this.routes.push(...routes);
   }
 }
