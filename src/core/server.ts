@@ -1,6 +1,13 @@
-import express, { type Request, type Response, type Router } from 'express';
+import express, {
+  type Request,
+  type Response,
+  type Router,
+  type NextFunction,
+} from 'express';
 import cors from 'cors';
 import { AppDataSource } from './data-source';
+import { errorHandler } from './error-handler';
+import { NotFoundError } from './api-error';
 
 interface ServerOptions {
   port: number;
@@ -28,7 +35,7 @@ export class Server {
 
     this.app.get('/', (_req: Request, res: Response) => {
       res.status(200).json({
-        message: 'The API is up and running!',
+        message: 'A API está rodando!',
       });
     });
 
@@ -37,9 +44,11 @@ export class Server {
       this.app.use(route);
     });
 
-    this.app.get('*', (_req: Request, res: Response) => {
-      res.status(404).json({ message: '404 Not Found' });
+    this.app.get('*', (_req: Request, _res: Response, next: NextFunction) => {
+      next(new NotFoundError('Rota não encontrada!'));
     });
+
+    this.app.use(errorHandler);
 
     // conexão com o banco de dados
     AppDataSource.initialize()
