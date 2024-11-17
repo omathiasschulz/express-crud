@@ -8,6 +8,7 @@ import cors from 'cors';
 import { AppDataSource } from './data-source';
 import { errorHandler } from './error-handler';
 import { NotFoundError } from './api-error';
+import { HttpCode } from '../enums/http-code.enum';
 
 interface ServerOptions {
   port: number;
@@ -34,7 +35,7 @@ export class Server {
     this.app.use(cors());
 
     this.app.get('/', (_req: Request, res: Response) => {
-      res.status(200).json({
+      res.status(HttpCode.OK).json({
         message: 'A API está rodando!',
       });
     });

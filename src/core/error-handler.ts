@@ -1,23 +1,28 @@
 import { type NextFunction, type Request, type Response } from 'express';
 import { ApiError } from './api-error';
+import { HttpCode } from '../enums/http-code.enum';
 
 /**
  * Retorna o status code e informações sobre o erro ocorrido
  *
  * @param error
- * @param _request
- * @param response
+ * @param _req
+ * @param res
  * @param _next
  */
 export const errorHandler = (
   error: Error | ApiError,
-  _request: Request,
-  response: Response,
+  _req: Request,
+  res: Response,
   _next: NextFunction,
 ) => {
-  const statusCode = error instanceof ApiError ? error.statusCode : 500;
+  const statusCode =
+    error instanceof ApiError
+      ? error.statusCode
+      : HttpCode.INTERNAL_SERVER_ERROR;
+
   const message =
     error instanceof ApiError ? error.message : 'Internal Server Error';
 
-  response.status(statusCode).json({ message });
+  res.status(statusCode).json({ message });
 };

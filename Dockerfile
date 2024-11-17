@@ -1,6 +1,8 @@
 # dev mode
 FROM node:22.11-alpine AS dev
 
+ENV TZ=UTC-3
+
 WORKDIR /api
 
 COPY package.json ./

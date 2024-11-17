@@ -15,8 +15,8 @@ export class ProdutorMigration1731811569151 implements MigrationInterface {
           total_agricultavel_ha_fazenda numeric(10, 2) not null,
           total_vegetacao_ha_fazenda numeric(10, 2) not null,
           culturas_fazenda enum_culturas[] not null,
-          created_at timestamp,
-          updated_at timestamp,
+          created_at timestamp not null default now(),
+          updated_at timestamp not null default now(),
           deleted boolean default false
         );
       `),

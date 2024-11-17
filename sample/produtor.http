@@ -6,7 +6,7 @@ POST http://localhost:3000/produtor
 Content-Type: application/json
 
 {
-    "cpf_cnpj": "11122233346",
+    "cpf_cnpj": "11122233341",
     "nome": "Fulano Sobrenome",
     "cidade": "Ibirama",
     "sigla_uf": "SC",
@@ -35,4 +35,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/produtor/5
+DELETE http://localhost:3000/produtor/1
