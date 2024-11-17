@@ -9,41 +9,44 @@ import {
 import { CulturasPlantadas } from '../enums/culturas.enum';
 
 export class CreateProdutorDTO {
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'cpf_cnpj deve ser uma string' })
+  @IsNotEmpty({ message: 'cpf_cnpj é obrigatório' })
   cpf_cnpj: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'nome deve ser uma string' })
+  @IsNotEmpty({ message: 'nome é obrigatório' })
   nome: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'cidade deve ser uma string' })
+  @IsNotEmpty({ message: 'cidade é obrigatório' })
   cidade: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'sigla_uf deve ser uma string' })
+  @IsNotEmpty({ message: 'sigla_uf é obrigatório' })
   sigla_uf: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'nome_fazenda deve ser uma string' })
+  @IsNotEmpty({ message: 'nome_fazenda é obrigatório' })
   nome_fazenda: string;
 
-  @IsNumber()
-  @IsNotEmpty()
+  @IsNumber({}, { message: 'total_ha_fazenda deve ser um número' })
+  @IsNotEmpty({ message: 'total_ha_fazenda é obrigatório' })
   total_ha_fazenda: number;
 
-  @IsNumber()
-  @IsNotEmpty()
+  @IsNumber({}, { message: 'total_agricultavel_ha_fazenda deve ser um número' })
+  @IsNotEmpty({ message: 'total_agricultavel_ha_fazenda é obrigatório' })
   total_agricultavel_ha_fazenda: number;
 
-  @IsNumber()
-  @IsNotEmpty()
+  @IsNumber({}, { message: 'total_vegetacao_ha_fazenda deve ser um número' })
+  @IsNotEmpty({ message: 'total_vegetacao_ha_fazenda é obrigatório' })
   total_vegetacao_ha_fazenda: number;
 
-  @IsArray()
-  @ArrayMinSize(1)
-  @IsNotEmpty()
-  @IsEnum(CulturasPlantadas, { each: true })
+  @IsArray({ message: 'culturas_fazenda deve ser um array' })
+  @ArrayMinSize(1, { message: 'culturas_fazenda não deve ser um array vazio' })
+  @IsNotEmpty({ message: 'culturas_fazenda é obrigatório' })
+  @IsEnum(CulturasPlantadas, {
+    each: true,
+    message: `culturas_fazenda opções aceitas: ${Object.values(CulturasPlantadas).join(', ')}`,
+  })
   culturas_fazenda: CulturasPlantadas[];
 }
