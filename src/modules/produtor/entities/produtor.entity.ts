@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { CulturasPlantadas } from '../enums/culturas.enum';
+import { DecimalColumnTransformer } from '../../../core/decimal-entity';
 
 @Entity({ name: 'produtor' })
 export class Produtor {
@@ -27,13 +28,31 @@ export class Produtor {
   @Column({ nullable: false })
   nome_fazenda: string;
 
-  @Column({ nullable: false })
+  @Column({
+    nullable: false,
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: new DecimalColumnTransformer(),
+  })
   total_ha_fazenda: number;
 
-  @Column({ nullable: false })
+  @Column({
+    nullable: false,
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: new DecimalColumnTransformer(),
+  })
   total_agricultavel_ha_fazenda: number;
 
-  @Column({ nullable: false })
+  @Column({
+    nullable: false,
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: new DecimalColumnTransformer(),
+  })
   total_vegetacao_ha_fazenda: number;
 
   @Column({

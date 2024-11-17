@@ -28,7 +28,7 @@ Content-Type: application/json
 
 {
     "nome": "Fulano Sobrenome Modificado",
-    "total_ha_fazenda": 17,
+    "total_ha_fazenda": 18.79,
     "culturas_fazenda": [
         "milho",
         "soja"
