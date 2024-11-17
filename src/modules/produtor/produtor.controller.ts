@@ -94,5 +94,21 @@ class ProdutorController {
       next(error);
     }
   };
+
+  /**
+   * Consulta informações para montagem da dashboard
+   */
+  dashboard = async (
+    {}: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const data = await this.produtorService.dashboard();
+      res.status(HttpCode.OK).json(data);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default new ProdutorController();

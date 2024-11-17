@@ -4,6 +4,7 @@ import { AppDataSource } from '../../core/data-source';
 import { CreateProdutorDTO } from './dtos/create-produtor.dto';
 import { UpdateProdutorDTO } from './dtos/update-produtor.dto';
 import { Produtor } from './entities/produtor.entity';
+import { ProdutorDashboard } from './interfaces/dashboard.interface';
 
 /**
  * Class ProdutorService
@@ -140,5 +141,55 @@ export class ProdutorService {
    */
   async remove(id: string): Promise<void> {
     await this.produtor.update({ id }, { deleted: true });
+  }
+
+  /**
+   * Consulta informações para montagem da dashboard
+   *
+   * @returns Retorna as informações tratadas
+   */
+  async dashboard(): Promise<ProdutorDashboard> {
+    // Total de fazendas em quantidade
+    const { quantidadeFazendas } = await this.produtor
+      .createQueryBuilder()
+      .select('COUNT(*)', 'quantidadeFazendas')
+      .getRawOne();
+
+    // Total de fazendas em hectares (área total)
+    const { areaTotalFazendas } = await this.produtor
+      .createQueryBuilder()
+      .select('SUM(total_ha_fazenda)', 'areaTotalFazendas')
+      .getRawOne();
+
+    // Gráfico de pizza por estado
+    const fazendasPorEstado = await this.produtor
+      .createQueryBuilder()
+      .select('sigla_uf')
+      .addSelect('COUNT(*)', 'quantidadeFazendas')
+      .groupBy('sigla_uf')
+      .getRawMany();
+
+    // Gráfico de pizza por cultura
+    const fazendasPorCultura = await this.produtor
+      .createQueryBuilder()
+      .select('unnest(culturas_fazenda)', 'cultura')
+      .addSelect('COUNT(*)', 'quantidadeFazendas')
+      .groupBy('cultura')
+      .getRawMany();
+
+    // Gráfico de pizza por uso de solo (Área agricultável e vegetação)
+    const usoSolo = await this.produtor
+      .createQueryBuilder()
+      .select('SUM(total_agricultavel_ha_fazenda)', 'totalAgricultavel')
+      .addSelect('SUM(total_vegetacao_ha_fazenda)', 'totalVegetacao')
+      .getRawOne();
+
+    return {
+      quantidadeFazendas: parseInt(quantidadeFazendas),
+      areaTotalFazendas: parseFloat(areaTotalFazendas),
+      // fazendasPorEstado,
+      // fazendasPorCultura,
+      // usoSolo,
+    };
   }
 }
