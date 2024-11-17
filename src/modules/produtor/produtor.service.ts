@@ -51,6 +51,16 @@ export class ProdutorService {
       );
     }
 
+    // valida a soma das áreas da fazenda
+    if (
+      dto.total_agricultavel_ha_fazenda + dto.total_vegetacao_ha_fazenda >
+      dto.total_ha_fazenda
+    ) {
+      throw new BadRequestError(
+        `A soma das áreas agrícultável e vegetação não deve ser maior que a área total da fazenda!`,
+      );
+    }
+
     return await this.produtor.save(dto);
   }
 
@@ -70,7 +80,13 @@ export class ProdutorService {
    * @returns Retorna o registro
    */
   async findOne(id: string): Promise<Produtor | null> {
-    return await this.produtor.findOne({ where: { id, deleted: false } });
+    const model = await this.produtor.findOne({
+      where: { id, deleted: false },
+    });
+    if (!model) {
+      throw new BadRequestError(`Produtor com id ${id} não encontrado!`);
+    }
+    return model;
   }
 
   /**
@@ -81,6 +97,37 @@ export class ProdutorService {
    * @returns Retorna o registro atualizado
    */
   async update(id: string, dto: UpdateProdutorDTO): Promise<Produtor | null> {
+    const model = await this.produtor.findOne({
+      where: { id, deleted: false },
+    });
+    if (!model) {
+      throw new BadRequestError(`Produtor com id ${id} não encontrado!`);
+    }
+
+    // valida se existe alteração nas áreas da fazenda
+    if (
+      dto.total_agricultavel_ha_fazenda ||
+      dto.total_vegetacao_ha_fazenda ||
+      dto.total_ha_fazenda
+    ) {
+      model.total_agricultavel_ha_fazenda =
+        dto.total_agricultavel_ha_fazenda ??
+        model.total_agricultavel_ha_fazenda;
+      model.total_vegetacao_ha_fazenda =
+        dto.total_vegetacao_ha_fazenda ?? model.total_vegetacao_ha_fazenda;
+      model.total_ha_fazenda = dto.total_ha_fazenda ?? model.total_ha_fazenda;
+
+      // valida a soma das áreas da fazenda
+      if (
+        model.total_agricultavel_ha_fazenda + model.total_vegetacao_ha_fazenda >
+        model.total_ha_fazenda
+      ) {
+        throw new BadRequestError(
+          `A soma das áreas agrícultável e vegetação não deve ser maior que a área total da fazenda!`,
+        );
+      }
+    }
+
     await this.produtor.update({ id }, dto);
 
     return await this.produtor.findOne({ where: { id, deleted: false } });

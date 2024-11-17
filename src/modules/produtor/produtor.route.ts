@@ -9,7 +9,7 @@ ProdutorRouter.route('/produtor')
 
 ProdutorRouter.route('/produtor/:_id')
   .get(ProdutorController.findOne)
-  .put(ProdutorController.update)
+  .patch(ProdutorController.update)
   .delete(ProdutorController.remove);
 
 export default ProdutorRouter;

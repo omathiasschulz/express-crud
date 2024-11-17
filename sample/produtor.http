@@ -6,28 +6,29 @@ POST http://localhost:3000/produtor
 Content-Type: application/json
 
 {
-    "cpf_cnpj": "28.006.736/0001-96",
+    "cpf_cnpj": "86.559.160/0001-90",
     "nome": "Fulano Sobrenome",
     "cidade": "Ibirama",
     "sigla_uf": "SC",
     "nome_fazenda": "Fazenda do Fulano",
-    "total_ha_fazenda": 30.3,
-    "total_agricultavel_ha_fazenda": 7.8,
-    "total_vegetacao_ha_fazenda": 10.99,
+    "total_ha_fazenda": 15.0,
+    "total_agricultavel_ha_fazenda": 5.01,
+    "total_vegetacao_ha_fazenda": 9.99,
     "culturas_fazenda": [
         "milho"
     ]
 }
 
 ###
-GET http://localhost:3000/produtor/1
+GET http://localhost:3000/produtor/10
 
 ###
-PUT http://localhost:3000/produtor/1
+PATCH http://localhost:3000/produtor/10
 Content-Type: application/json
 
 {
     "nome": "Fulano Sobrenome Modificado",
+    "total_ha_fazenda": 17,
     "culturas_fazenda": [
         "milho",
         "soja"
