@@ -26,7 +26,13 @@ GET http://localhost:3000/produtor/1/
 PUT http://localhost:3000/produtor/1/
 Content-Type: application/json
 
-{}
+{
+    "nome": "Fulano Sobrenome Modificado",
+    "culturas_fazenda": [
+        "milho",
+        "soja"
+    ]
+}
 
 ###
-DELETE http://localhost:3000/produtor/1/
+DELETE http://localhost:3000/produtor/5/
