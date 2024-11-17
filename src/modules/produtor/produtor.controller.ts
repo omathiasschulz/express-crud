@@ -1,10 +1,9 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import { ProdutorService } from './produtor.service';
 import { CreateProdutorDTO } from './dtos/create-produtor.dto';
-import { plainToInstance } from 'class-transformer';
-import { validateOrReject } from 'class-validator';
 import { UpdateProdutorDTO } from './dtos/update-produtor.dto';
 import { HttpCode } from '../../enums/http-code.enum';
+import { validateDto } from '../../core/validate-dto';
 
 /**
  * Class ProdutorController
@@ -21,10 +20,9 @@ class ProdutorController {
     next: NextFunction,
   ): Promise<void> => {
     try {
-      const dto = plainToInstance(CreateProdutorDTO, body);
-      await validateOrReject(dto);
+      const dto = await validateDto(CreateProdutorDTO, body);
 
-      const produtor = await this.produtorService.create(body);
+      const produtor = await this.produtorService.create(dto);
       res.status(HttpCode.CREATED).json(produtor);
     } catch (error) {
       next(error);
@@ -72,8 +70,7 @@ class ProdutorController {
     next: NextFunction,
   ): Promise<void> => {
     try {
-      const dto = plainToInstance(UpdateProdutorDTO, body);
-      await validateOrReject(dto);
+      const dto = await validateDto(UpdateProdutorDTO, body);
 
       const produtor = await this.produtorService.update(_id, dto);
       res.status(HttpCode.OK).json(produtor);
