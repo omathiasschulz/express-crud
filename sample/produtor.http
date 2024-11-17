@@ -5,7 +5,19 @@ GET http://localhost:3000/produtor/
 POST http://localhost:3000/produtor/
 Content-Type: application/json
 
-{}
+{
+    "cpf_cnpj": "11122233346",
+    "nome": "Fulano Sobrenome",
+    "cidade": "Ibirama",
+    "sigla_uf": "SC",
+    "nome_fazenda": "Fazenda do Fulano",
+    "total_ha_fazenda": 30.3,
+    "total_agricultavel_ha_fazenda": 7.8,
+    "total_vegetacao_ha_fazenda": 10.99,
+    "culturas_fazenda": [
+        "milho"
+    ]
+}
 
 ###
 GET http://localhost:3000/produtor/1/

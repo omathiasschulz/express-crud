@@ -9,7 +9,7 @@ import { CulturasPlantadas } from '../enums/culturas.enum';
 
 @Entity({ name: 'produtor' })
 export class Produtor {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column({ nullable: false })
@@ -40,8 +40,9 @@ export class Produtor {
     nullable: false,
     type: 'enum',
     enum: CulturasPlantadas,
+    array: true,
   })
-  culturas_fazenda: string;
+  culturas_fazenda: CulturasPlantadas[];
 
   @CreateDateColumn()
   created_at: Date;

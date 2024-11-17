@@ -1,6 +1,12 @@
-class ProdutorService {
-  create(createPostDto: any) {
-    return true;
+import { AppDataSource } from '../../core/data-source';
+import { CreateProdutorDTO } from './dtos/create-produtor.dto';
+import { Produtor } from './entities/produtor.entity';
+
+export class ProdutorService {
+  private readonly produtor = AppDataSource.getRepository(Produtor);
+
+  async create(dto: CreateProdutorDTO): Promise<Produtor> {
+    return await this.produtor.save(dto);
   }
 
   findAll() {
