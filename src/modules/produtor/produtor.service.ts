@@ -187,9 +187,9 @@ export class ProdutorService {
     return {
       quantidadeFazendas: parseInt(quantidadeFazendas),
       areaTotalFazendas: parseFloat(areaTotalFazendas),
-      // fazendasPorEstado,
-      // fazendasPorCultura,
-      // usoSolo,
+      fazendasPorEstado,
+      fazendasPorCultura,
+      usoSolo,
     };
   }
 }
