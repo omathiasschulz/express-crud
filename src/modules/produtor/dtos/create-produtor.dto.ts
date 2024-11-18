@@ -61,5 +61,5 @@ export class CreateProdutorDTO {
     each: true,
     message: `culturas_fazenda opções aceitas: ${Object.values(CulturasPlantadas).join(', ')}`,
   })
-  culturas_fazenda: CulturasPlantadas[];
+  culturas_fazenda: string[];
 }

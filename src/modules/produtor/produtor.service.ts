@@ -58,7 +58,7 @@ export class ProdutorService {
       dto.total_ha_fazenda
     ) {
       throw new BadRequestError(
-        `A soma das áreas agrícultável e vegetação não deve ser maior que a área total da fazenda!`,
+        `A soma das áreas agricultável e vegetação não deve ser maior que a área total da fazenda!`,
       );
     }
 
@@ -130,7 +130,7 @@ export class ProdutorService {
         model.total_ha_fazenda
       ) {
         throw new BadRequestError(
-          `A soma das áreas agrícultável e vegetação não deve ser maior que a área total da fazenda!`,
+          `A soma das áreas agricultável e vegetação não deve ser maior que a área total da fazenda!`,
         );
       }
     }

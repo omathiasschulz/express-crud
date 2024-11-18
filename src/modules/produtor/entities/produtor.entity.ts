@@ -61,7 +61,7 @@ export class Produtor {
     enum: CulturasPlantadas,
     array: true,
   })
-  culturas_fazenda: CulturasPlantadas[];
+  culturas_fazenda: string[];
 
   @CreateDateColumn()
   created_at: Date;
