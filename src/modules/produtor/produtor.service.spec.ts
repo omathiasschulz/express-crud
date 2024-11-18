@@ -2,12 +2,15 @@ import { ProdutorService } from './produtor.service';
 import { cpf, cnpj } from 'cpf-cnpj-validator';
 import { CreateProdutorDTO } from './dtos/create-produtor.dto';
 import { BadRequestError } from '../../core/api-error';
+import { UpdateProdutorDTO } from './dtos/update-produtor.dto';
+import { Produtor } from './entities/produtor.entity';
 
 // mock do repositório
 const produtorRepository = {
   findOne: jest.fn(),
   save: jest.fn(),
   findAndCount: jest.fn(),
+  update: jest.fn(),
 };
 
 // substitui o import por um mock pré definido
@@ -36,17 +39,24 @@ describe('ProdutorService', () => {
         total_ha_fazenda: 20,
         total_agricultavel_ha_fazenda: 5.5,
         total_vegetacao_ha_fazenda: 9.99,
-        culturas_fazenda: ['milho'],
+        culturas_fazenda: ['milho', 'soja'],
+      };
+      const produtor: Produtor = {
+        ...dto,
+        id: '1',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted: false,
       };
 
       // findOne ao ser chamado retorna uma promise resolvida com o valor null
       produtorRepository.findOne.mockResolvedValue(null);
-      produtorRepository.save.mockResolvedValue(dto);
+      produtorRepository.save.mockResolvedValue(produtor);
 
       const result = await produtorService.create(dto);
 
       expect(produtorRepository.save).toHaveBeenCalledWith(dto);
-      expect(result).toEqual(dto);
+      expect(result).toEqual(produtor);
     });
 
     it('deve lançar um erro se o CPF for inválido', async () => {
@@ -59,7 +69,7 @@ describe('ProdutorService', () => {
         total_ha_fazenda: 20,
         total_agricultavel_ha_fazenda: 5.5,
         total_vegetacao_ha_fazenda: 9.99,
-        culturas_fazenda: ['milho'],
+        culturas_fazenda: ['milho', 'soja'],
       };
 
       await expect(produtorService.create(dto)).rejects.toThrow(
@@ -77,11 +87,11 @@ describe('ProdutorService', () => {
         total_ha_fazenda: 20,
         total_agricultavel_ha_fazenda: 5.5,
         total_vegetacao_ha_fazenda: 9.99,
-        culturas_fazenda: ['milho'],
+        culturas_fazenda: ['milho', 'soja'],
       };
 
       await expect(produtorService.create(dto)).rejects.toThrow(
-        `O CNPJ ${cnpj.format(dto.cpf_cnpj)} é inválido!`,
+        new BadRequestError(`O CNPJ ${cnpj.format(dto.cpf_cnpj)} é inválido!`),
       );
     });
 
@@ -95,13 +105,15 @@ describe('ProdutorService', () => {
         total_ha_fazenda: 20,
         total_agricultavel_ha_fazenda: 5.5,
         total_vegetacao_ha_fazenda: 9.99,
-        culturas_fazenda: ['milho'],
+        culturas_fazenda: ['milho', 'soja'],
       };
 
       produtorRepository.findOne.mockResolvedValue(dto);
 
       await expect(produtorService.create(dto)).rejects.toThrow(
-        `O CPF ${cpf.format(dto.cpf_cnpj)} já está cadastrado!`,
+        new BadRequestError(
+          `O CPF ${cpf.format(dto.cpf_cnpj)} já está cadastrado!`,
+        ),
       );
     });
 
@@ -115,13 +127,15 @@ describe('ProdutorService', () => {
         total_ha_fazenda: 20,
         total_agricultavel_ha_fazenda: 5.5,
         total_vegetacao_ha_fazenda: 9.99,
-        culturas_fazenda: ['milho'],
+        culturas_fazenda: ['milho', 'soja'],
       };
 
       produtorRepository.findOne.mockResolvedValue(dto);
 
       await expect(produtorService.create(dto)).rejects.toThrow(
-        `O CNPJ ${cnpj.format(dto.cpf_cnpj)} já está cadastrado!`,
+        new BadRequestError(
+          `O CNPJ ${cnpj.format(dto.cpf_cnpj)} já está cadastrado!`,
+        ),
       );
     });
 
@@ -135,24 +149,39 @@ describe('ProdutorService', () => {
         total_ha_fazenda: 10,
         total_agricultavel_ha_fazenda: 5.5,
         total_vegetacao_ha_fazenda: 9.99,
-        culturas_fazenda: ['milho'],
+        culturas_fazenda: ['milho', 'soja'],
       };
 
       produtorRepository.findOne.mockResolvedValue(null);
 
       await expect(produtorService.create(dto)).rejects.toThrow(
-        `A soma das áreas agricultável e vegetação não deve ser maior que a área total da fazenda!`,
+        new BadRequestError(
+          `A soma das áreas agricultável e vegetação não deve ser maior que a área total da fazenda!`,
+        ),
       );
     });
   });
 
   describe('findAll', () => {
     it('deve retornar todos os produtores', async () => {
-      const data = [
-        { id: '1', nome: 'Produtor 01' },
-        { id: '2', nome: 'Produtor 02' },
+      const data: Produtor[] = [
+        {
+          id: '1',
+          cpf_cnpj: '86559160000190',
+          nome: 'Fulano com Sobrenome',
+          cidade: 'Ibirama',
+          sigla_uf: 'SC',
+          nome_fazenda: 'Fazenda do Fulano',
+          total_ha_fazenda: 20,
+          total_agricultavel_ha_fazenda: 5.5,
+          total_vegetacao_ha_fazenda: 9.99,
+          culturas_fazenda: ['milho', 'soja'],
+          created_at: new Date(),
+          updated_at: new Date(),
+          deleted: false,
+        },
       ];
-      const total = 2;
+      const total = 1;
       produtorRepository.findAndCount.mockResolvedValue([data, total]);
 
       const result = await produtorService.findAll();
@@ -164,7 +193,21 @@ describe('ProdutorService', () => {
 
   describe('findOne', () => {
     it('deve retornar um produtor pelo id', async () => {
-      const produtor = { id: '1', nome: 'Produtor 1' };
+      const produtor: Produtor = {
+        id: '1',
+        cpf_cnpj: '86559160000190',
+        nome: 'Fulano com Sobrenome',
+        cidade: 'Ibirama',
+        sigla_uf: 'SC',
+        nome_fazenda: 'Fazenda do Fulano',
+        total_ha_fazenda: 20,
+        total_agricultavel_ha_fazenda: 5.5,
+        total_vegetacao_ha_fazenda: 9.99,
+        culturas_fazenda: ['milho', 'soja'],
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted: false,
+      };
       produtorRepository.findOne.mockResolvedValue(produtor);
 
       const result = await produtorService.findOne('1');
@@ -181,7 +224,83 @@ describe('ProdutorService', () => {
     });
   });
 
-  describe('update', () => {});
+  describe('update', () => {
+    it('deve atualizar um produtor com sucesso', async () => {
+      const produtor: Produtor = {
+        id: '1',
+        cpf_cnpj: '86559160000190',
+        nome: 'Fulano com Sobrenome',
+        cidade: 'Ibirama',
+        sigla_uf: 'SC',
+        nome_fazenda: 'Fazenda do Fulano',
+        total_ha_fazenda: 20,
+        total_agricultavel_ha_fazenda: 5.5,
+        total_vegetacao_ha_fazenda: 9.99,
+        culturas_fazenda: ['milho', 'soja'],
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted: false,
+      };
+
+      const dto: UpdateProdutorDTO = {
+        nome: 'Fulano com Sobrenome Atualizado',
+        culturas_fazenda: ['milho', 'soja', 'cana_acucar'],
+      };
+
+      produtorRepository.findOne.mockResolvedValue(produtor);
+      produtorRepository.update.mockResolvedValue(null);
+      produtorRepository.findOne.mockResolvedValue({
+        ...produtor,
+        ...dto,
+      });
+
+      const result = await produtorService.update('1', dto);
+
+      expect(result).toEqual({ ...produtor, ...dto });
+    });
+
+    it('deve lançar erro se o produtor não for encontrado', async () => {
+      const dto: UpdateProdutorDTO = {
+        nome: 'Fulano com Sobrenome Atualizado',
+      };
+      produtorRepository.findOne.mockResolvedValue(null);
+
+      await expect(produtorService.update('1', dto)).rejects.toThrow(
+        new BadRequestError(`Produtor com id 1 não encontrado!`),
+      );
+    });
+
+    it('deve lançar erro se áreas (agricultável + vegetação) ser maior que a área total', async () => {
+      const produtor: Produtor = {
+        id: '1',
+        cpf_cnpj: '86559160000190',
+        nome: 'Fulano com Sobrenome',
+        cidade: 'Ibirama',
+        sigla_uf: 'SC',
+        nome_fazenda: 'Fazenda do Fulano',
+        total_ha_fazenda: 20,
+        total_agricultavel_ha_fazenda: 5.5,
+        total_vegetacao_ha_fazenda: 9.99,
+        culturas_fazenda: ['milho', 'soja'],
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted: false,
+      };
+      const dto: UpdateProdutorDTO = {
+        nome: 'Fulano com Sobrenome Atualizado',
+        total_ha_fazenda: 10,
+        culturas_fazenda: ['milho', 'soja', 'cana_acucar'],
+      };
+
+      produtorRepository.findOne.mockResolvedValue(produtor);
+
+      await expect(produtorService.update('1', dto)).rejects.toThrow(
+        new BadRequestError(
+          `A soma das áreas agricultável e vegetação não deve ser maior que a área total da fazenda!`,
+        ),
+      );
+    });
+  });
 
   describe('remove', () => {});
 
