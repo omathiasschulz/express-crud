@@ -38,8 +38,10 @@ class ProdutorController {
     next: NextFunction,
   ): Promise<void> => {
     try {
-      const produtores = await this.produtorService.findAll();
-      res.status(HttpCode.OK).json(produtores);
+      const data = await this.produtorService.findAll();
+
+      res.setHeader('X-Total-Count', data.total);
+      res.status(HttpCode.OK).json(data.results);
     } catch (error) {
       next(error);
     }

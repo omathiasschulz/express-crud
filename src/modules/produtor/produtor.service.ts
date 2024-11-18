@@ -70,8 +70,14 @@ export class ProdutorService {
    *
    * @returns Retorna todos os registros encontrados
    */
-  async findAll(): Promise<Produtor[]> {
-    return await this.produtor.find({ where: { deleted: false } });
+  async findAll(): Promise<{ results: Produtor[]; total: number }> {
+    const [results, total] = await this.produtor.findAndCount({
+      where: { deleted: false },
+    });
+    return {
+      results,
+      total,
+    };
   }
 
   /**
