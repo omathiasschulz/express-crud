@@ -302,7 +302,18 @@ describe('ProdutorService', () => {
     });
   });
 
-  describe('remove', () => {});
+  describe('remove', () => {
+    it('deve remover um produtor marcando como deletado', async () => {
+      produtorRepository.update.mockResolvedValue(null);
+
+      await produtorService.remove('1');
+
+      expect(produtorRepository.update).toHaveBeenCalledWith(
+        { id: '1' },
+        { deleted: true },
+      );
+    });
+  });
 
   describe('dashboard', () => {});
 });
