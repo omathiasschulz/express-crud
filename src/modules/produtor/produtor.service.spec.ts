@@ -1,11 +1,13 @@
 import { ProdutorService } from './produtor.service';
 import { cpf, cnpj } from 'cpf-cnpj-validator';
 import { CreateProdutorDTO } from './dtos/create-produtor.dto';
+import { BadRequestError } from '../../core/api-error';
 
 // mock do repositório
 const produtorRepository = {
   findOne: jest.fn(),
   save: jest.fn(),
+  findAndCount: jest.fn(),
 };
 
 // substitui o import por um mock pré definido
@@ -143,4 +145,45 @@ describe('ProdutorService', () => {
       );
     });
   });
+
+  describe('findAll', () => {
+    it('deve retornar todos os produtores', async () => {
+      const data = [
+        { id: '1', nome: 'Produtor 01' },
+        { id: '2', nome: 'Produtor 02' },
+      ];
+      const total = 2;
+      produtorRepository.findAndCount.mockResolvedValue([data, total]);
+
+      const result = await produtorService.findAll();
+
+      expect(result.results).toEqual(data);
+      expect(result.total).toBe(total);
+    });
+  });
+
+  describe('findOne', () => {
+    it('deve retornar um produtor pelo id', async () => {
+      const produtor = { id: '1', nome: 'Produtor 1' };
+      produtorRepository.findOne.mockResolvedValue(produtor);
+
+      const result = await produtorService.findOne('1');
+
+      expect(result).toEqual(produtor);
+    });
+
+    it('deve lançar erro se o produtor não for encontrado', async () => {
+      produtorRepository.findOne.mockResolvedValue(null);
+
+      await expect(produtorService.findOne('1')).rejects.toThrow(
+        new BadRequestError(`Produtor com id 1 não encontrado!`),
+      );
+    });
+  });
+
+  describe('update', () => {});
+
+  describe('remove', () => {});
+
+  describe('dashboard', () => {});
 });
