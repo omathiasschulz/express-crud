@@ -45,10 +45,16 @@ export class Server {
       this.app.use(route);
     });
 
-    this.app.get('*', (_req: Request, _res: Response, next: NextFunction) => {
-      next(new NotFoundError('Rota não encontrada!'));
+    // retorno agradável para rotas não encontradas
+    this.app.use((req: Request, _res: Response, next: NextFunction) => {
+      next(
+        new NotFoundError(
+          `Rota ${req.method} [${req.originalUrl}] não foi encontrada!`,
+        ),
+      );
     });
 
+    // tratamento dos erros
     this.app.use(errorHandler);
 
     // conexão com o banco de dados
