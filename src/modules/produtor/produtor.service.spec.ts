@@ -4,6 +4,7 @@ import { CreateProdutorDTO } from './dtos/create-produtor.dto';
 import { BadRequestError } from '../../core/api-error';
 import { UpdateProdutorDTO } from './dtos/update-produtor.dto';
 import { Produtor } from './entities/produtor.entity';
+import { ProdutorDashboard } from './interfaces/dashboard.interface';
 
 // mock do repositório
 const produtorRepository = {
@@ -11,6 +12,7 @@ const produtorRepository = {
   save: jest.fn(),
   findAndCount: jest.fn(),
   update: jest.fn(),
+  createQueryBuilder: jest.fn(),
 };
 
 // substitui o import por um mock pré definido
@@ -315,5 +317,57 @@ describe('ProdutorService', () => {
     });
   });
 
-  describe('dashboard', () => {});
+  describe('dashboard', () => {
+    it('deve retornar as informações para a dashboard', async () => {
+      const quantidadeFazendas = { quantidadeFazendas: 4 };
+      const areaTotalFazendas = { areaTotalFazendas: 80 };
+      const fazendasPorEstado = [{ sigla_uf: 'SC', quantidadeFazendas: 4 }];
+      const fazendasPorCultura = [{ cultura: 'Soja', quantidadeFazendas: 4 }];
+      const usoSolo = { totalAgricultavel: 11, totalVegetacao: 48 };
+
+      produtorRepository.createQueryBuilder
+        // Total de fazendas em quantidade
+        .mockReturnValueOnce({
+          select: jest.fn().mockReturnThis(),
+          getRawOne: jest.fn().mockResolvedValue(quantidadeFazendas),
+        })
+        // Total de fazendas em hectares (área total)
+        .mockReturnValueOnce({
+          select: jest.fn().mockReturnThis(),
+          getRawOne: jest.fn().mockResolvedValue(areaTotalFazendas),
+        })
+        // Gráfico de pizza por estado
+        .mockReturnValueOnce({
+          select: jest.fn().mockReturnThis(),
+          addSelect: jest.fn().mockReturnThis(),
+          groupBy: jest.fn().mockReturnThis(),
+          getRawMany: jest.fn().mockResolvedValue(fazendasPorEstado),
+        })
+        // Gráfico de pizza por cultura
+        .mockReturnValueOnce({
+          select: jest.fn().mockReturnThis(),
+          addSelect: jest.fn().mockReturnThis(),
+          groupBy: jest.fn().mockReturnThis(),
+          getRawMany: jest.fn().mockResolvedValue(fazendasPorCultura),
+        })
+        // Gráfico de pizza por uso de solo (Área agricultável e vegetação)
+        .mockReturnValueOnce({
+          select: jest.fn().mockReturnThis(),
+          addSelect: jest.fn().mockReturnThis(),
+          getRawOne: jest.fn().mockResolvedValue(usoSolo),
+        });
+
+      const result = await produtorService.dashboard();
+
+      const dashboard: ProdutorDashboard = {
+        quantidadeFazendas: quantidadeFazendas.quantidadeFazendas,
+        areaTotalFazendas: areaTotalFazendas.areaTotalFazendas,
+        fazendasPorEstado,
+        fazendasPorCultura,
+        usoSolo,
+      };
+
+      expect(result).toEqual(dashboard);
+    });
+  });
 });
