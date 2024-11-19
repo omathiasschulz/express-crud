@@ -7,6 +7,11 @@ import { validateDto } from '../../core/validate-dto';
 
 /**
  * Class ProdutorController
+ *
+ * @swagger
+ * tags:
+ *   name: Produtores
+ *   description: Gerenciamento de produtores rurais
  */
 class ProdutorController {
   private readonly produtorService = new ProdutorService();

@@ -5,6 +5,8 @@ import express, {
   type NextFunction,
 } from 'express';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swagger-config';
 import { AppDataSource } from './data-source';
 import { errorHandler } from './error-handler';
 import { NotFoundError } from './api-error';
@@ -39,6 +41,9 @@ export class Server {
         message: 'A API está rodando!',
       });
     });
+
+    // documentação swagger
+    this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
     // adiciona as rotas da aplicação
     this.routes.map((route: Router) => {
