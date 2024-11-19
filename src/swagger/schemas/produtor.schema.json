@@ -1,0 +1,66 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "cidade": {
+            "type": "string"
+        },
+        "cpf_cnpj": {
+            "type": "string"
+        },
+        "created_at": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "culturas_fazenda": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "deleted": {
+            "type": "boolean"
+        },
+        "id": {
+            "type": "string"
+        },
+        "nome": {
+            "type": "string"
+        },
+        "nome_fazenda": {
+            "type": "string"
+        },
+        "sigla_uf": {
+            "type": "string"
+        },
+        "total_agricultavel_ha_fazenda": {
+            "type": "number"
+        },
+        "total_ha_fazenda": {
+            "type": "number"
+        },
+        "total_vegetacao_ha_fazenda": {
+            "type": "number"
+        },
+        "updated_at": {
+            "format": "date-time",
+            "type": "string"
+        }
+    },
+    "required": [
+        "cidade",
+        "cpf_cnpj",
+        "created_at",
+        "culturas_fazenda",
+        "deleted",
+        "id",
+        "nome",
+        "nome_fazenda",
+        "sigla_uf",
+        "total_agricultavel_ha_fazenda",
+        "total_ha_fazenda",
+        "total_vegetacao_ha_fazenda",
+        "updated_at"
+    ],
+    "type": "object"
+}
+

@@ -18,6 +18,27 @@ class ProdutorController {
 
   /**
    * Criação de um novo registro
+   *
+   * @swagger
+   * /produtores:
+   *   post:
+   *     summary: Criação de um novo produtor
+   *     tags: [Produtores]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/CreateProdutorSchema'
+   *     responses:
+   *       201:
+   *         description: Produtor criado com sucesso
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/ProdutorSchema'
+   *       400:
+   *         description: Dados inválidos
    */
   create = async (
     { body }: Request,

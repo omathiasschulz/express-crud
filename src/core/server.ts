@@ -6,11 +6,11 @@ import express, {
 } from 'express';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './swagger-config';
 import { AppDataSource } from './data-source';
 import { errorHandler } from './error-handler';
 import { NotFoundError } from './api-error';
 import { HttpCode } from '../enums/http-code.enum';
+import swaggerSpec from '../swagger/swagger';
 
 interface ServerOptions {
   port: number;
