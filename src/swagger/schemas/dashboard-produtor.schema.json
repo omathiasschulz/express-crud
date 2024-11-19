@@ -1,0 +1,61 @@
+{
+  "description": "Interface ProdutorDashboard",
+  "properties": {
+    "areaTotalFazendas": {
+      "type": "number"
+    },
+    "fazendasPorCultura": {
+      "items": {
+        "properties": {
+          "cultura": {
+            "type": "string"
+          },
+          "quantidadeFazendas": {
+            "type": "number"
+          }
+        },
+        "required": ["cultura", "quantidadeFazendas"],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "fazendasPorEstado": {
+      "items": {
+        "properties": {
+          "quantidadeFazendas": {
+            "type": "number"
+          },
+          "sigla_uf": {
+            "type": "string"
+          }
+        },
+        "required": ["quantidadeFazendas", "sigla_uf"],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "quantidadeFazendas": {
+      "type": "number"
+    },
+    "usoSolo": {
+      "properties": {
+        "totalAgricultavel": {
+          "type": "number"
+        },
+        "totalVegetacao": {
+          "type": "number"
+        }
+      },
+      "required": ["totalAgricultavel", "totalVegetacao"],
+      "type": "object"
+    }
+  },
+  "required": [
+    "areaTotalFazendas",
+    "fazendasPorCultura",
+    "fazendasPorEstado",
+    "quantidadeFazendas",
+    "usoSolo"
+  ],
+  "type": "object"
+}

@@ -2,6 +2,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import CreateProdutorSchema from './schemas/create-produtor.schema.json';
 import UpdateProdutorSchema from './schemas/update-produtor.schema.json';
 import ProdutorSchema from './schemas/produtor.schema.json';
+import DashboardProdutorSchema from './schemas/dashboard-produtor.schema.json';
 
 const swaggerOptions = {
   definition: {
@@ -17,6 +18,7 @@ const swaggerOptions = {
         CreateProdutorSchema,
         UpdateProdutorSchema,
         ProdutorSchema,
+        DashboardProdutorSchema,
       },
     },
   },

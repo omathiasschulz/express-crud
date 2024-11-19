@@ -57,6 +57,26 @@ class ProdutorController {
 
   /**
    * Consulta todos os registros
+   *
+   * @swagger
+   * /produtores:
+   *   get:
+   *     summary: Lista todos os produtores
+   *     tags: [Produtores]
+   *     responses:
+   *       200:
+   *         description: Lista de produtores
+   *         headers:
+   *           X-Total-Count:
+   *             description: Número total de registros
+   *             schema:
+   *               type: integer
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/ProdutorSchema'
    */
   findAll = async (
     {}: Request,
@@ -75,6 +95,28 @@ class ProdutorController {
 
   /**
    * Consulta um registro pelo id
+   *
+   * @swagger
+   * /produtores/{id}:
+   *   get:
+   *     summary: Consulta um produtor pelo ID
+   *     tags: [Produtores]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: ID do produtor
+   *     responses:
+   *       200:
+   *         description: Detalhes do produtor
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/ProdutorSchema'
+   *       404:
+   *         description: Produtor não encontrado
    */
   findOne = async (
     { params: { _id } }: Request,
@@ -91,6 +133,36 @@ class ProdutorController {
 
   /**
    * Atualiza um registro pelo id
+   *
+   * @swagger
+   * /produtores/{id}:
+   *   put:
+   *     summary: Atualiza um produtor pelo ID
+   *     tags: [Produtores]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: ID do produtor
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/UpdateProdutorSchema'
+   *     responses:
+   *       200:
+   *         description: Produtor atualizado com sucesso
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/ProdutorSchema'
+   *       400:
+   *         description: Dados inválidos
+   *       404:
+   *         description: Produtor não encontrado
    */
   update = async (
     { body, params: { _id } }: Request,
@@ -109,6 +181,22 @@ class ProdutorController {
 
   /**
    * Remove um registro pelo id
+   *
+   * @swagger
+   * /produtores/{id}:
+   *   delete:
+   *     summary: Remove um produtor pelo ID
+   *     tags: [Produtores]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: ID do produtor
+   *     responses:
+   *       200:
+   *         description: Produtor removido com sucesso
    */
   remove = async (
     { params }: Request,
@@ -125,6 +213,21 @@ class ProdutorController {
 
   /**
    * Consulta informações para montagem da dashboard
+   *
+   * @swagger
+   * /produtores/dashboard:
+   *   get:
+   *     summary: Informações para dashboard
+   *     tags: [Produtores]
+   *     responses:
+   *       200:
+   *         description: Informações
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/DashboardProdutorSchema'
    */
   dashboard = async (
     {}: Request,
