@@ -20,10 +20,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/produtor/10
+GET http://localhost:3000/produtor/1
 
 ###
-PATCH http://localhost:3000/produtor/10
+PATCH http://localhost:3000/produtor/1
 Content-Type: application/json
 
 {

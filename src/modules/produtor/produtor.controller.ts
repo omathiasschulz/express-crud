@@ -20,7 +20,7 @@ class ProdutorController {
    * Criação de um novo registro
    *
    * @swagger
-   * /produtores:
+   * /produtor:
    *   post:
    *     summary: Criação de um novo produtor
    *     tags: [Produtores]
@@ -59,7 +59,7 @@ class ProdutorController {
    * Consulta todos os registros
    *
    * @swagger
-   * /produtores:
+   * /produtor:
    *   get:
    *     summary: Lista todos os produtores
    *     tags: [Produtores]
@@ -97,7 +97,7 @@ class ProdutorController {
    * Consulta um registro pelo id
    *
    * @swagger
-   * /produtores/{id}:
+   * /produtor/{id}:
    *   get:
    *     summary: Consulta um produtor pelo ID
    *     tags: [Produtores]
@@ -135,8 +135,8 @@ class ProdutorController {
    * Atualiza um registro pelo id
    *
    * @swagger
-   * /produtores/{id}:
-   *   put:
+   * /produtor/{id}:
+   *   patch:
    *     summary: Atualiza um produtor pelo ID
    *     tags: [Produtores]
    *     parameters:
@@ -183,7 +183,7 @@ class ProdutorController {
    * Remove um registro pelo id
    *
    * @swagger
-   * /produtores/{id}:
+   * /produtor/{id}:
    *   delete:
    *     summary: Remove um produtor pelo ID
    *     tags: [Produtores]
@@ -215,7 +215,7 @@ class ProdutorController {
    * Consulta informações para montagem da dashboard
    *
    * @swagger
-   * /produtores/dashboard:
+   * /produtor/dashboard:
    *   get:
    *     summary: Informações para dashboard
    *     tags: [Produtores]
