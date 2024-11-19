@@ -38,6 +38,20 @@ yarn migration:run
 
 > **Obs:** Esse comando acessará o docker e executará a migration, pois somente assim é possível acessar as ENVs do Banco de Dados utilizando docker.
 
+## Rotas da API
+
+Todas as rotas estão descritas no arquivo `sample/produtor.http` e também estão disponíveis no **swagger** (`/docs`), como apresentado na imagem abaixo:
+
+![Swagger](src/swagger/swagger.png)
+
+## Dicas
+
+Criar uma nova migration: `yarn typeorm migration:create src/migrations/MigrationName`
+
+[Gerador de CPF](https://www.4devs.com.br/gerador_de_cpf)
+
+[Gerador de CNPJ](https://www.4devs.com.br/gerador_de_cnpj)
+
 ## Bibliotecas
 
 Algumas bibliotecas interessantes que foram utilizadas nesse projeto:
