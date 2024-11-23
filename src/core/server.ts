@@ -62,14 +62,18 @@ export class Server {
     // tratamento dos erros
     this.app.use(errorHandler);
 
-    // conexão com o banco de dados
-    AppDataSource.initialize()
-      .then(() => console.info('Connected with database...'))
-      .catch((error) => console.error(error));
+    // @TODO: Ajustar
+    // AppDataSource.initialize();
+    // this.app.listen(this.port);
 
-    this.app.listen(this.port, () => {
-      console.info(`Server running on port ${this.port}...`);
-    });
+    // // conexão com o banco de dados
+    // AppDataSource.initialize()
+    //   .then(() => console.info('Connected with database...'))
+    //   .catch((error) => console.error(error));
+
+    // this.app.listen(this.port, () => {
+    //   console.info(`Server running on port ${this.port}...`);
+    // });
   }
 
   /**
@@ -79,5 +83,14 @@ export class Server {
    */
   async addRoutes(...routes: Router[]): Promise<void> {
     this.routes.push(...routes);
+  }
+
+  /**
+   * Get express app
+   *
+   * @returns Express app
+   */
+  getApp() {
+    return this.app;
   }
 }
