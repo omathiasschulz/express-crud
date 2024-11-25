@@ -39,7 +39,7 @@ export class ProdutorService {
     // valida se o cpf/cnpj já está inserido
     if (
       await this.produtor.findOne({
-        where: { cpf_cnpj: dto.cpf_cnpj },
+        where: { cpf_cnpj: dto.cpf_cnpj, deleted: false },
       })
     ) {
       if (dto.cpf_cnpj.length === this.QTD_CARACTERES_CPF) {
@@ -168,12 +168,14 @@ export class ProdutorService {
     const { quantidadeFazendas } = await this.produtor
       .createQueryBuilder()
       .select('COUNT(*)', 'quantidadeFazendas')
+      .where('deleted = :deleted', { deleted: false })
       .getRawOne();
 
     // Total de fazendas em hectares (área total)
     const { areaTotalFazendas } = await this.produtor
       .createQueryBuilder()
       .select('SUM(total_ha_fazenda)', 'areaTotalFazendas')
+      .where('deleted = :deleted', { deleted: false })
       .getRawOne();
 
     // Gráfico de pizza por estado
@@ -181,6 +183,7 @@ export class ProdutorService {
       .createQueryBuilder()
       .select('sigla_uf')
       .addSelect('COUNT(*)', 'quantidadeFazendas')
+      .where('deleted = :deleted', { deleted: false })
       .groupBy('sigla_uf')
       .getRawMany();
 
@@ -189,6 +192,7 @@ export class ProdutorService {
       .createQueryBuilder()
       .select('unnest(culturas_fazenda)', 'cultura')
       .addSelect('COUNT(*)', 'quantidadeFazendas')
+      .where('deleted = :deleted', { deleted: false })
       .groupBy('cultura')
       .getRawMany();
 
@@ -197,6 +201,7 @@ export class ProdutorService {
       .createQueryBuilder()
       .select('SUM(total_agricultavel_ha_fazenda)', 'totalAgricultavel')
       .addSelect('SUM(total_vegetacao_ha_fazenda)', 'totalVegetacao')
+      .where('deleted = :deleted', { deleted: false })
       .getRawOne();
 
     return {
