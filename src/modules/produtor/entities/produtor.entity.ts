@@ -64,10 +64,10 @@ export class Produtor {
   culturas_fazenda: string[];
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: string;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at: string;
 
   @Column()
   deleted: boolean;

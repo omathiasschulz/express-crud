@@ -29,12 +29,3 @@ export class NotFoundError extends ApiError {
     super(message, HttpCode.NOT_FOUND);
   }
 }
-
-/**
- * Class UnauthorizedError
- */
-export class UnauthorizedError extends ApiError {
-  constructor(message: string) {
-    super(message, HttpCode.UNAUTHORIZED);
-  }
-}
