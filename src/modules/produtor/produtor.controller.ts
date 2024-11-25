@@ -79,14 +79,20 @@ class ProdutorController {
    *                 $ref: '#/components/schemas/ProdutorSchema'
    */
   findAll = async (
-    {}: Request,
+    req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> => {
     try {
-      const data = await this.produtorService.findAll();
+      const { ...filters } = req.query;
+      const limit = Number(req.query.limit) || 0;
+      delete filters.limit;
+      const skip = Number(req.query.skip) || 0;
+      delete filters.skip;
 
-      res.setHeader('X-Total-Count', data.total);
+      const data = await this.produtorService.findAll(filters, limit, skip);
+
+      res.setHeader('x-total-count', data.total);
       res.status(HttpCode.OK).json(data.results);
     } catch (error) {
       next(error);

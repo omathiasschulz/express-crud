@@ -68,11 +68,20 @@ export class ProdutorService {
   /**
    * Consulta todos os registros
    *
+   * @param filters => Filtros da consulta
+   * @param limit => Quantidade de registros para consulta
+   * @param skip => Quantidade de registros para ignorar
    * @returns Retorna todos os registros encontrados
    */
-  async findAll(): Promise<{ results: Produtor[]; total: number }> {
+  async findAll(
+    filters: { [key: string]: any } = {},
+    limit: number = 0,
+    skip: number = 0,
+  ): Promise<{ results: Produtor[]; total: number }> {
     const [results, total] = await this.produtor.findAndCount({
-      where: { deleted: false },
+      where: { ...filters, deleted: false },
+      take: limit,
+      skip,
     });
     return {
       results,
