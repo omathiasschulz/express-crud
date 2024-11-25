@@ -11,8 +11,6 @@
   },
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watchAll",
-    "test:coverage": "jest --coverage",
     "dev": "ts-node-dev --respawn ./src/main.ts",
     "build": "yarn test && rimraf ./dist && tsc",
     "start": "yarn build && node dist/main.js",
