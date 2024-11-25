@@ -74,7 +74,7 @@ export class ProdutorService {
    * @returns Retorna todos os registros encontrados
    */
   async findAll(
-    filters: { [key: string]: any } = {},
+    filters: { [key: string]: unknown } = {},
     limit: number = 0,
     skip: number = 0,
   ): Promise<{ results: Produtor[]; total: number }> {

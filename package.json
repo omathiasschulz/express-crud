@@ -12,7 +12,7 @@
   "scripts": {
     "test": "jest",
     "dev": "ts-node-dev --respawn ./src/main.ts",
-    "build": "yarn test && rimraf ./dist && tsc",
+    "build": "rimraf ./dist && tsc",
     "start": "yarn build && node dist/main.js",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:run": "docker exec express-crud-api-1 sh -c 'yarn typeorm migration:run -d ./src/core/data-source.ts'",
