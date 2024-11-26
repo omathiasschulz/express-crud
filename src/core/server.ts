@@ -1,3 +1,4 @@
+import * as core from 'express-serve-static-core';
 import express, {
   type Request,
   type Response,
@@ -20,7 +21,7 @@ interface ServerOptions {
  * Class Server
  */
 export class Server {
-  private readonly app = express();
+  private readonly app: core.Express = express();
   private readonly port: number;
   private readonly routes: Router[] = [];
 
@@ -30,8 +31,10 @@ export class Server {
 
   /**
    * Inicia o servidor e aplica as configurações iniciais
+   *
+   * @param testMode => Determina se inicia a aplicação em modo de teste
    */
-  async start(): Promise<void> {
+  async start(testMode = false): Promise<void> {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(cors());
@@ -62,6 +65,8 @@ export class Server {
     // tratamento dos erros
     this.app.use(errorHandler);
 
+    if (testMode) return;
+
     // conexão com o banco de dados
     AppDataSource.initialize()
       .then(() => console.info('Connected with database...'))
@@ -79,5 +84,14 @@ export class Server {
    */
   async addRoutes(...routes: Router[]): Promise<void> {
     this.routes.push(...routes);
+  }
+
+  /**
+   * Get express app
+   *
+   * @returns Express app
+   */
+  getApp(): core.Express {
+    return this.app;
   }
 }

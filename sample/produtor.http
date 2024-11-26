@@ -2,6 +2,12 @@
 GET http://localhost:3000/produtor
 
 ###
+GET http://localhost:3000/produtor?skip=2&limit=4
+
+###
+GET http://localhost:3000/produtor?nome=Fulano Sobrenome
+
+###
 POST http://localhost:3000/produtor
 Content-Type: application/json
 

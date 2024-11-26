@@ -46,8 +46,8 @@ describe('ProdutorService', () => {
       const produtor: Produtor = {
         ...dto,
         id: '1',
-        created_at: new Date(),
-        updated_at: new Date(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
         deleted: false,
       };
 
@@ -75,7 +75,7 @@ describe('ProdutorService', () => {
       };
 
       await expect(produtorService.create(dto)).rejects.toThrow(
-        `O CPF ${cpf.format(dto.cpf_cnpj)} é inválido!`,
+        new BadRequestError(`O CPF ${cpf.format(dto.cpf_cnpj)} é inválido!`),
       );
     });
 
@@ -178,8 +178,8 @@ describe('ProdutorService', () => {
           total_agricultavel_ha_fazenda: 5.5,
           total_vegetacao_ha_fazenda: 9.99,
           culturas_fazenda: ['milho', 'soja'],
-          created_at: new Date(),
-          updated_at: new Date(),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
           deleted: false,
         },
       ];
@@ -206,8 +206,8 @@ describe('ProdutorService', () => {
         total_agricultavel_ha_fazenda: 5.5,
         total_vegetacao_ha_fazenda: 9.99,
         culturas_fazenda: ['milho', 'soja'],
-        created_at: new Date(),
-        updated_at: new Date(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
         deleted: false,
       };
       produtorRepository.findOne.mockResolvedValue(produtor);
@@ -239,8 +239,8 @@ describe('ProdutorService', () => {
         total_agricultavel_ha_fazenda: 5.5,
         total_vegetacao_ha_fazenda: 9.99,
         culturas_fazenda: ['milho', 'soja'],
-        created_at: new Date(),
-        updated_at: new Date(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
         deleted: false,
       };
 
@@ -284,8 +284,8 @@ describe('ProdutorService', () => {
         total_agricultavel_ha_fazenda: 5.5,
         total_vegetacao_ha_fazenda: 9.99,
         culturas_fazenda: ['milho', 'soja'],
-        created_at: new Date(),
-        updated_at: new Date(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
         deleted: false,
       };
       const dto: UpdateProdutorDTO = {

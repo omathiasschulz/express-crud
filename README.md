@@ -30,7 +30,7 @@ docker-compose up
 >
 > Na primeira execução a API pode iniciar antes do Banco de Dados.
 
-Execute as migrations (Para criar as informações no banco de dados caso ainda não existam):
+Execute as migrations (Para criar as tabelas e enums no banco de dados caso ainda não existam):
 
 ```bash
 yarn migration:run
@@ -40,9 +40,17 @@ yarn migration:run
 
 ## Rotas da API
 
-Todas as rotas estão descritas no arquivo `sample/produtor.http` e também estão disponíveis no **swagger** (`/docs`), como apresentado na imagem abaixo:
+Todas as rotas estão descritas no arquivo `sample/produtor.http` e também estão disponíveis no **swagger** (Rota GET `/docs`), como apresentado na imagem abaixo:
 
 ![Swagger](src/swagger/swagger.png)
+
+## Testes
+
+Para realizar os testes unitários da API execute o seguinte comando:
+
+```bash
+yarn test
+```
 
 ## Dicas
 
@@ -64,3 +72,7 @@ Algumas bibliotecas interessantes que foram utilizadas nesse projeto:
 - `cpf-cnpj-validator` > Biblioteca para validação de CPF e CNPJ.
 - `jest` > Framework para testes unitários.
 - `supertest` > Realiza testes em endpoints HTTP.
+
+Bibliotecas interessantes para serem utilizadas no futuro:
+
+- [routing-controllers](https://github.com/typestack/routing-controllers) > Construção de rotas com decorators

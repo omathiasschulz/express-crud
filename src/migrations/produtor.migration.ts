@@ -6,7 +6,7 @@ export class ProdutorMigration1731811569151 implements MigrationInterface {
         create type enum_culturas as enum ('soja', 'milho', 'algodao', 'cafe', 'cana_acucar');
         create table produtor (
           id serial primary key,
-          cpf_cnpj varchar(14) not null unique,
+          cpf_cnpj varchar(14) not null,
           nome varchar(100) not null,
           cidade varchar(100) not null,
           sigla_uf char(2) not null,
